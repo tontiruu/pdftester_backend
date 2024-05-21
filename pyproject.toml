@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pdftester-backend"
+version = "0.1.0"
+description = ""
+authors = ["tontiruu <113325721+tontiruu@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pypdf = "^4.2.0"
+openai = "^1.30.1"
+python-dotenv = "^1.0.1"
+fastapi = "^0.111.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
