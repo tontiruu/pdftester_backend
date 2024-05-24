@@ -11,6 +11,7 @@ pypdf = "^4.2.0"
 openai = "^1.30.1"
 python-dotenv = "^1.0.1"
 fastapi = "^0.111.0"
+pandas = "^2.2.2"
 
 
 [build-system]

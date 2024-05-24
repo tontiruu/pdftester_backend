@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException,UploadFile,File
 from fastapi.middleware.cors import CORSMiddleware
 from pypdf import PdfReader
 from uuid import uuid4
-
+from components import processing_pdf
 # API configuration
 app = FastAPI()
 # another_slack_backend.include_router(api_router)
@@ -25,19 +25,22 @@ app.add_middleware(
 
 @app.post("/uploadfile/")
 async def create_upload_file(file: UploadFile = File(...)):
-    try:
+    # try:
       contents = await file.read()
       filename = file.filename
       if filename.split(".")[-1] != "pdf":
           return {"id":0,"error":True,"error_message":"PDFファイルをアップロードしてください"}   
       id = uuid4()
-      filename = f"{id} + .pdf" 
-      save_file = open(filename,"wb")
+      filename = f"{id}.pdf" 
+      save_file = open(f"./input_pdf/{filename}","wb")
       save_file.write(contents)
       save_file.close()
+      processing_pdf.read_pdf(id)
+      
+
       return {"id": id, "error":False,"error_message":None}
-    except:
-        return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}
+    # except:
+        # return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}
 
 
 
