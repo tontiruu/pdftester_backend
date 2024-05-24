@@ -28,10 +28,11 @@ def read_pdf(id):
   return text_data
 
 def create_questions(text_data):
+  text_data = text_data.replace(";",":")
 
   client = OpenAI(api_key=openai_key)
   completion = client.chat.completions.create(
-    model="gpt-3.5-turbo",
+    model="gpt-4o",
     messages=[
       {"role": "system", "content": """
       次のデータはPDF形式の講義資料からテキストデータを抽出したものです。
