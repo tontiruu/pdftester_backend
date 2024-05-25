@@ -19,10 +19,11 @@ def read_pdf(id):
   response = create_questions(text_data=text_data)
   tmp_insert_questions_path = "database_csv/tmp_insert_questions.csv"
   file = open(tmp_insert_questions_path,"w")
-  file.write(response.content)
+  file.write(response.content.replace("```",""))
   file.close()
   insert_questions = pd.read_csv(tmp_insert_questions_path,sep=";")
-  databse_csv.insert_questions_to_database(id=id,df=insert_questions)
+  insert_questions["id"] = id
+  databse_csv.insert_questions_to_database(df=insert_questions)
 
 
   return text_data
@@ -33,6 +34,7 @@ def create_questions(text_data):
   client = OpenAI(api_key=openai_key)
   completion = client.chat.completions.create(
     model="gpt-4o",
+    temperature=0.1,
     messages=[
       {"role": "system", "content": """
       次のデータはPDF形式の講義資料からテキストデータを抽出したものです。

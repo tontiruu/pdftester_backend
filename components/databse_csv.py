@@ -1,7 +1,6 @@
 import pandas as pd
 
-def insert_questions_to_database(id,df):
-  df["id"] = id
+def insert_questions_to_database(df):
 
   questions_database_path = "database_csv/questions.csv"
   questions_database = pd.read_csv(questions_database_path,sep=";")
