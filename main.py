@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pypdf import PdfReader
 from uuid import uuid4
 from components import processing_pdf
+from components import databse_csv
 # API configuration
 app = FastAPI()
 # another_slack_backend.include_router(api_router)
@@ -23,9 +24,9 @@ app.add_middleware(
 # async def test():
 #     return get_main_message("ミニ運営")
 
-@app.post("/uploadfile/")
+@app.post("/uploadfile")
 async def create_upload_file(file: UploadFile = File(...)):
-    # try:
+    try:
       contents = await file.read()
       filename = file.filename
       if filename.split(".")[-1] != "pdf":
@@ -36,13 +37,18 @@ async def create_upload_file(file: UploadFile = File(...)):
       save_file.write(contents)
       save_file.close()
       processing_pdf.read_pdf(id)
-      
-
       return {"id": id, "error":False,"error_message":None}
+    except:
+        return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}
+
+@app.get("/fetch_questions")
+async def fetch_questions(id):
+    # try:
+        response = {"error":False}
+        response["data"] = databse_csv.fetch_questions(id)
+        return response
     # except:
-        # return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}
-
-
+    #     return {"error":True,"data":None}
 
 
 

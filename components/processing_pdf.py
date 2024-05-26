@@ -17,15 +17,10 @@ def read_pdf(id):
     text_data.append(page.extract_text())
   text_data = ", ".join(text_data)
   response = create_questions(text_data=text_data)
-  tmp_insert_questions_path = "database_csv/tmp_insert_questions.csv"
-  file = open(tmp_insert_questions_path,"w")
+  new_questions_csv_path = f"database_csv/{id}.csv"
+  file = open(new_questions_csv_path,"w")
   file.write(response.content.replace("```",""))
   file.close()
-  insert_questions = pd.read_csv(tmp_insert_questions_path,sep=";")
-  insert_questions["id"] = id
-  databse_csv.insert_questions_to_database(df=insert_questions)
-
-
   return text_data
 
 def create_questions(text_data):

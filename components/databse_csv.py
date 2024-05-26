@@ -1,8 +1,10 @@
 import pandas as pd
 
-def insert_questions_to_database(df):
+def fetch_questions(id):
+  questions =pd.read_csv(f"database_csv/{id}.csv",sep=";")
+  response = []
+  for Q,A in zip(questions["問題"],questions["答え"]):
+    response.append({"Q":Q,"A":A})
+  return response
 
-  questions_database_path = "database_csv/questions.csv"
-  questions_database = pd.read_csv(questions_database_path,sep=";")
-  questions_database = pd.concat([questions_database,df],ignore_index=True)
-  questions_database.to_csv(questions_database_path,sep=";")
+  
