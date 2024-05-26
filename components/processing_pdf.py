@@ -19,7 +19,12 @@ def read_pdf(id):
   response = create_questions(text_data=text_data)
   new_questions_csv_path = f"database_csv/{id}.csv"
   file = open(new_questions_csv_path,"w")
-  file.write(response.content.replace("```",""))
+  text_csv = response.content
+
+  #ChatGPTが最初に"""やCSVなどの文字をつけてくることがあるので、それを省く処理
+  pre_sentence = text_csv.split("問題;答え")[0]
+  text_csv = text_csv[len(pre_sentence):]
+  file.write(response.content)
   file.close()
   return text_data
 
