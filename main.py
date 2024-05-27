@@ -33,12 +33,11 @@ async def create_upload_file(file: UploadFile = File(...)):
       filename = file.filename
       if filename.split(".")[-1] != "pdf":
         return {"id":0,"error":True,"error_message":"PDFファイルをアップロードしてください"}   
-      id = uuid4()
+      id = str(uuid4())
       contents_buffer = BytesIO(contents)
       processing_pdf.read_pdf(id,pdf_data=contents_buffer)
       return {"id": id, "error":False,"error_message":None}
     # except APIConnectionError:
-    #     print("a")
     #     return {"id":0,"error":True,"error_message":"通信エラーが発生しました。ネット接続を確認してください"}   
     # except:
     #     return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}   
