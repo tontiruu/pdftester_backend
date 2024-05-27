@@ -22,6 +22,7 @@ def read_pdf(id):
   text_csv = response.content
 
   #ChatGPTが最初に"""やCSVなどの文字をつけてくることがあるので、それを省く処理
+  text_csv = text_csv.replace("```","")
   pre_sentence = text_csv.split("問題;答え")[0]
   text_csv = text_csv[len(pre_sentence):]
   file.write(text_csv)
