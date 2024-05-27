@@ -9,9 +9,8 @@ load_dotenv()
 
 openai_key = os.environ["OPENAI_API_KEY"]
 
-def read_pdf(id):
-  reader = PdfReader(f"input_pdf/{id}.pdf")
-  os.remove(f"input_pdf/{id}.pdf")
+def read_pdf(id,pdf_data):
+  reader = PdfReader(pdf_data)
   text_data = []
   for page in reader.pages:
     text_data.append(page.extract_text())

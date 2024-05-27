@@ -8,6 +8,7 @@ from uuid import uuid4
 from components import processing_pdf
 from components import databse_csv
 from openai import APIConnectionError
+from io import BytesIO
 # API configuration
 app = FastAPI()
 # another_slack_backend.include_router(api_router)
@@ -33,11 +34,8 @@ async def create_upload_file(file: UploadFile = File(...)):
       if filename.split(".")[-1] != "pdf":
         return {"id":0,"error":True,"error_message":"PDFファイルをアップロードしてください"}   
       id = uuid4()
-      filename = f"{id}.pdf" 
-      save_file = open(f"./input_pdf/{filename}","wb")
-      save_file.write(contents)
-      save_file.close()
-      processing_pdf.read_pdf(id)
+      contents_buffer = BytesIO(contents)
+      processing_pdf.read_pdf(id,pdf_data=contents_buffer)
       return {"id": id, "error":False,"error_message":None}
     # except APIConnectionError:
     #     print("a")
@@ -58,6 +56,6 @@ async def fetch_questions(id):
 
 
 
-# if __name__ == "__main__":
-#     import uvicorn
-#     uvicorn.run(app, host="0.0.0.0", port=8001)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
