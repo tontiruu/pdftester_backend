@@ -9,9 +9,8 @@ from components import processing_pdf
 from components import databse_csv
 from openai import APIConnectionError
 from io import BytesIO
-# API configuration
+
 app = FastAPI()
-# another_slack_backend.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,9 +21,7 @@ app.add_middleware(
 )
 
 
-# @app.get("/get_main_messages")
-# async def test():
-#     return get_main_message("ミニ運営")
+
 
 @app.post("/uploadfile")
 async def create_upload_file(file: UploadFile = File(...)):
