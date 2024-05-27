@@ -27,7 +27,7 @@ app.add_middleware(
 
 @app.post("/uploadfile")
 async def create_upload_file(file: UploadFile = File(...)):
-    try:
+    # try:
       contents = await file.read()
       filename = file.filename
       if filename.split(".")[-1] != "pdf":
@@ -39,22 +39,22 @@ async def create_upload_file(file: UploadFile = File(...)):
       save_file.close()
       processing_pdf.read_pdf(id)
       return {"id": id, "error":False,"error_message":None}
-    except APIConnectionError:
-        print("a")
-        return {"id":0,"error":True,"error_message":"通信エラーが発生しました。ネット接続を確認してください"}   
-    except:
-        return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}   
+    # except APIConnectionError:
+    #     print("a")
+    #     return {"id":0,"error":True,"error_message":"通信エラーが発生しました。ネット接続を確認してください"}   
+    # except:
+    #     return {"id":0,"error":True,"error_message":"不明なエラーが発生しました"}   
 
         # return {"id":0,"error":True,"error_message":"エラーが発生しました"}
 
 @app.get("/fetch_questions")
 async def fetch_questions(id):
-    try:
+    # try:
         response = {"error":False}
         response["data"] = databse_csv.fetch_questions(id)
         return response
-    except:
-        return {"error":True,"data":None}
+    # except:
+    #     return {"error":True,"data":None}
 
 
 
